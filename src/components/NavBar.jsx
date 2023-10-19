@@ -9,9 +9,13 @@ function NavBar() {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
- 
+
   const closeMenu = () => {
     setMenuOpen(false);
+    window.scrollTo(0, 0);
+  };
+  const handleGetStartedClick = () => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
   };
   const [isNavbarFixed, setIsNavbarFixed] = useState(false);
   // Function to handle scroll events
@@ -35,6 +39,8 @@ function NavBar() {
   const navigateToHome = () => {
     // Use the `navigate` function to redirect to the homepage
     navigate("/");
+    window.scrollTo(0, 0);
+
   };
   return (
     <>
@@ -42,7 +48,7 @@ function NavBar() {
         <header className={`${navbarClass} bg-white z-30`}>
           <nav className="flex relative md:hidden py-8  mx-4 justify-between items-center ">
             <Link to="/">
-              <img className="w-40 " src={img} alt=""/>
+              <img className="w-40 " src={img} alt="" />
             </Link>
             <ul
               className={`h-screen text-purple-700   top-8 z-20 justify-center items-center absolute bg-white underline cursor-pointer w-full flex flex-col leading-[80px] font-semibold text-xl ${
@@ -53,18 +59,20 @@ function NavBar() {
               </li>
 
               <li onClick={closeMenu}>
-                <Link to="about" className="  cursor-pointer">About Us</Link>
+                <Link to="about" className="  cursor-pointer">
+                  About Us
+                </Link>
               </li>
-             
+
               <li onClick={closeMenu} className="  cursor-pointer">
-              <Link to="business"> Businesses</Link>
-            </li>
-            <li onClick={closeMenu} className="  cursor-pointer">
-              <Link to="workinprogress"> Talents</Link>
-            </li>
-             <li onClick={closeMenu} className="  cursor-pointer">
-              <Link to="workinprogress">Blog</Link>
-            </li>
+                <Link to="business"> Businesses</Link>
+              </li>
+              <li onClick={closeMenu} className="  cursor-pointer">
+                <Link to="workinprogress"> Talents</Link>
+              </li>
+              <li onClick={closeMenu} className="  cursor-pointer">
+                <Link to="workinprogress">Blog</Link>
+              </li>
             </ul>
           </nav>
           <div>
@@ -99,19 +107,19 @@ function NavBar() {
               </Link>
             </li>
 
-            <li className="px-4 py-4 ">
+            <li onClick={handleGetStartedClick} className="px-4 py-4 ">
               <Link to="about">About Us</Link>
-            </li><li className="px-4 py-4">
+            </li>
+            <li onClick={handleGetStartedClick} className="px-4 py-4">
               <Link to="business"> Businesses</Link>
             </li>
-            
-            <li className="px-4 py-4">
+
+            <li onClick={handleGetStartedClick} className="px-4 py-4">
               <Link to="workinprogress"> Talents</Link>
             </li>
             <li className="px-4 py-4">
               <Link to="workinprogress">Blog</Link>
             </li>
-           
           </ul>
         </div>
       </div>

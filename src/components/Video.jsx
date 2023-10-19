@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property */
 function Video() {
   return (
     <div className="h-screen  mx-8 flex justify-center items-center my-auto lg:bg-purple-100">
