@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import DatePicker from "react-datepicker";
-
+import emailjs from "@emailjs/browser";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -16,7 +16,26 @@ const BusinessForm = () => {
     numberOfTalents: 1,
     startDate: new Date(),
   });
+  const form = useRef();
+  const sendEmail = (e) => {
+    e.preventDefault();
 
+    emailjs
+      .sendForm(
+        "service_1kjbpag",
+        "template_81k3zcp",
+        form.current,
+        "oCtQ4YXyDy5Xm4BQm"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
   const talentOptions = [
     "Administrative",
     "Data",
@@ -86,7 +105,7 @@ const BusinessForm = () => {
       if (response.ok) {
         toast.success("Form submitted successfully!", {
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -112,27 +131,24 @@ const BusinessForm = () => {
       numberOfTalents: 1,
       startDate: new Date(),
     });
+    sendEmail(e);
   };
 
   return (
     <div className="mt-4 md:mt-8 h-screen">
-      <h2
-        
-        className="font-bold text-2xl text-center my-8">
+      <h2 className="font-bold text-2xl text-center my-8">
         Needs Assessment Form
       </h2>
-      <form className="leading-10 h-full md:px-16">
+      <form
+        className="leading-10 h-full md:px-16"
+        ref={form}
+        onSubmit={sendEmail}>
         {formValid === false && (
           <p className="text-red-500">Please fill in all required fields.</p>
         )}
         <div>
-          <label
-           
-            className="font-bold mr-8">
-            Name:
-          </label>
+          <label className="font-bold mr-8">Name:</label>
           <input
-          
             className="border w-full px-4"
             type="text"
             name="name"
@@ -143,13 +159,8 @@ const BusinessForm = () => {
           />
         </div>
         <div className="mt-4 md:mt-8">
-          <label
-          
-            className="font-bold mr-8">
-            Company Name:
-          </label>
+          <label className="font-bold mr-8">Company Name:</label>
           <input
-            
             className="border w-full px-4"
             type="text"
             name="companyName"
@@ -160,13 +171,8 @@ const BusinessForm = () => {
           />
         </div>
         <div className="mt-4 md:mt-8">
-          <label
-           
-            className="font-bold mr-8">
-            Email:
-          </label>
+          <label className="font-bold mr-8">Email:</label>
           <input
-          
             className="border w-full px-4"
             type="email"
             name="email"
@@ -177,9 +183,7 @@ const BusinessForm = () => {
           />
         </div>
         <div className="mt-4 md:mt-8">
-          <label
-            
-            className="          font-bold mr-8 w-full">
+          <label className="          font-bold mr-8 w-full">
             Talent Requirements:
           </label>
           <select
@@ -213,13 +217,8 @@ const BusinessForm = () => {
           </div>
         )}
         <div className="mt-4 md:mt-8">
-          <label
-           
-            className="font-bold mr-8">
-            Number of Talents Needed:
-          </label>
+          <label className="font-bold mr-8">Number of Talents Needed:</label>
           <input
-            
             className="border pl-4"
             type="number"
             name="numberOfTalents"
@@ -231,9 +230,7 @@ const BusinessForm = () => {
           />
         </div>
         <div className="mt-4 md:mt-8">
-          <label
-           
-            className="font-bold mr-8">
+          <label className="font-bold mr-8">
             Preferred Start Date for Talents:
           </label>
           <DatePicker
@@ -243,7 +240,7 @@ const BusinessForm = () => {
           />
         </div>
         <div className="mt-4 md:mt-8 mb-44">
-          <button
+          <button  type="submit" 
             onClick={handleSubmit}
             className="bg-purple-700 text-white rounded-md md:px-4 md:py-2 py-2  hover:bg-purple-100 mb-4 hover:text-purple-800 hover:font-bold md:w-full justify-center items-center w-full">
             Submit
