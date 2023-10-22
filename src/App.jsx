@@ -25,10 +25,12 @@ import { ToastContainer } from "react-toastify";
 import ForTalents from "./components/ForTalents";
 import FreelancerSignUp from "./components/FreelancerSignUp";
 import StudentSignUp from "./components/StudentSignUp";
+import RegistrationForm from "./components/RegistrationForm";
 
 function App() {
   return (
     <div>
+      
       <Router>
         <NavBar />
         <Routes>
@@ -46,6 +48,7 @@ function App() {
             <Route path="/workinprogress" element={<WorkInProgress />} />
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/fortalents" element={<ForTalents />} />
+            <Route path="/register" element={<RegistrationForm />} />
           </Route>
           <Route path="*" element={<ErrorPage />} />
         </Routes>
