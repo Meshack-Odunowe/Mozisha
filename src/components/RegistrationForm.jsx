@@ -1,13 +1,28 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { RingLoader } from "react-spinners";
 import img from "../assets/howtoregister.jpg";
 import "react-toastify/dist/ReactToastify.css";
-
+import { FcSalesPerformance } from "react-icons/fc"
+import { GrUserAdmin } from "react-icons/gr"
+import { SiAltiumdesigner } from "react-icons/si"
+import {BiNetworkChart} from "react-icons/bi"
+import { TbSeo } from "react-icons/tb"
+import {AiOutlineDatabase} from "react-icons/ai"
+import {SiCoinmarketcap} from "react-icons/si"
+// import { GiReceiveMoney } from "react-icons/gi";
+// import {MdComputer} from "react-icons/md"
+// import { HiOutlineComputerDesktop } from "react-icons/hi";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const RegistrationForm = () => {
+  useEffect(() => {
+   AOS.init();
+   AOS.refresh();
+ }, []);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -119,9 +134,12 @@ const RegistrationForm = () => {
 
   return (
     <>
-      <div>
-        <div className="flex mx-auto h-screen max-w-[1240px] gap-8 justify-start items-center  leading-8 flex-col md:flex-row relative">
-          <div className="mx-4 md:w-1/2 ">
+      <div data-aos-duration="2000"
+          data-aos="fade-up">
+        <div data-aos-duration="2000"
+          data-aos="fade-up" className="flex mx-auto h-screen max-w-[1240px] gap-8 justify-start items-center  leading-8 flex-col md:flex-row relative">
+          <div data-aos-duration="2000"
+          data-aos="fade-up" className="mx-4 md:w-1/2 ">
             <h1 className="text-center md:text-start">
               <span className="text-2xl md:text-8xl font-bold mb-16 text-purple-700">
                 Monetize
@@ -130,7 +148,8 @@ const RegistrationForm = () => {
                 Your Skills
               </span>
             </h1>
-            <div className="mx-auto md:text-start text-center mt-16">
+            <div data-aos-duration="2000"
+          data-aos="fade-up" className="mx-auto md:text-start text-center mt-8">
               <p>
                 At Mozisha, we offer dignified and fulfilling employment
                 opportunities to African talents through our partnerships with
@@ -138,7 +157,8 @@ const RegistrationForm = () => {
               </p>
             </div>
           </div>
-          <div className="rounded- pb-20">
+          <div data-aos-duration="2000"
+          data-aos="fade-up" className="rounded- pb-20">
             <img
               src={img}
               alt="group photo"
@@ -146,42 +166,49 @@ const RegistrationForm = () => {
             />
           </div>
         </div>
-        <div className=" max-w-[1240px] flex-col md:flex-row mx-auto gap-8 h-screen  px-4 w-fit hidden md:flex">
-          <div className=" bg-green-200 rounded-full w-[400px] h-[300px] flex flex-col items-center justify-center  mb-8">
-            <p className="text-9xl font-extrabold text-purple-900 text-center ">
+        <div data-aos-duration="2000"
+          data-aos="fade-up" className=" max-w-[1240px] flex-col md:flex-row mx-auto gap-8 h-screen  px-4 w-fit hidden md:flex">
+          <div data-aos-duration="2000"
+          data-aos="fade-up" className=" bg-green-200 rounded-full w-[400px] h-[300px] flex flex-col items-center justify-center  mb-8">
+            <p className="text-9xl font-extrabold text-red-500 text-center ">
               1
             </p>
-            <h1 className="text-center leading-8 text-purple-500">
+            <h1 className="text-center leading-8 text-purple-500 text-sm ">
               Fill out the job application forms
             </h1>
           </div>
-          <div className=" bg-red-200  rounded-full w-[400px] h-[300px] flex flex-col items-center justify-center  ">
-            {" "}
-            <p className="text-9xl font-extrabold text-purple-900 text-center pt-8">
-              2
-            </p>
-            <h1 className="text-center leading-8 text-purple-500">Interview</h1>
-          </div>
+          <div data-aos-duration="2000"
+          data-aos="fade-up" className="bg-blue-200 rounded-full w-[400px] h-[300px] flex flex-col items-center justify-center">
+    <p className="text-9xl font-extrabold text-yellow-500 text-center pt-8">
+        2
+    </p>
+    <h1 className="text-center leading-8 text-red-500 text-sm">Interview</h1>
+</div>
 
-          <div className=" bg-purple-200 rounded-full w-[400px] h-[300px] flex flex-col items-center justify-center  ">
-            <p className="text-9xl font-extrabold text-purple-900 text-center pt-8">
-              3
-            </p>
-            <h1 className="text-center leading-8 text-purple-500 text-sm">
-              Complete short skills assessments
-            </h1>
-          </div>
-          <div className=" bg-yellow-200  rounded-full w-[400px] h-[300px] flex flex-col items-center justify-center  ">
-            <p className="text-9xl font-extrabold text-purple-900 text-center pt-8">
-              4
-            </p>
-            <h1 className="text-center leading-8 text-purple-500 text-sm">
-              Final interview and job placement.
-            </h1>
-          </div>
-        </div>
-        <div className="block md:hidden h-screen pt-16 text-center mx-4">
-          <div className="bg-red-100 rounded-full h-[300px] w-[300px] mx-auto flex flex-col items-center justify-center">
+<div data-aos-duration="2000"
+          data-aos="fade-up" className="bg-red-200 rounded-full w-[400px] h-[300px] flex flex-col items-center justify-center">
+    <p className="text-9xl font-extrabold text-yellow-900 text-center pt-8">
+        3
+    </p>
+    <h1 className="text-center leading-8 text-blue-500 text-sm">
+        Complete short skills assessments
+    </h1>
+</div>
+
+<div data-aos-duration="2000"
+          data-aos="fade-up" className="bg-purple-200 rounded-full w-[400px] h-[300px] flex flex-col items-center justify-center">
+    <p className="text-9xl font-extrabold text-purple-500 text-center pt-8">
+        4
+    </p>
+    <h1 className="text-center leading-8 text-red-500 text-sm">
+        Final interview and job placement.
+    </h1>
+</div>
+</div>
+        <div data-aos-duration="2000"
+          data-aos="fade-up" className="block md:hidden h-screen pt-16 text-center mx-4">
+          <div data-aos-duration="2000"
+          data-aos="fade-up" className="bg-red-100 rounded-full h-[300px] w-[300px] mx-auto flex flex-col items-center justify-center">
             <p className="text-9xl font-extrabold text-purple-900 text-center ">
               1
             </p>
@@ -190,8 +217,10 @@ const RegistrationForm = () => {
             </h1>
           </div>
         </div>
-        <div className="block md:hidden h-screen pt-16 text-center mx-4">
-          <div className="bg-red-100 rounded-full h-[300px] w-[300px] mx-auto flex flex-col items-center justify-center">
+        <div data-aos-duration="2000"
+          data-aos="fade-up" className="block md:hidden h-screen pt-16 text-center mx-4">
+          <div data-aos-duration="2000"
+          data-aos="fade-up" className="bg-red-100 rounded-full h-[300px] w-[300px] mx-auto flex flex-col items-center justify-center">
             <p className="text-9xl font-extrabold text-red-600 text-center ">
               2
             </p>
@@ -200,8 +229,10 @@ const RegistrationForm = () => {
             </h1>
           </div>
         </div>
-        <div className="block md:hidden h-screen pt-16 text-center mx-4">
-          <div className="bg-red-100 rounded-full h-[300px] w-[300px] mx-auto flex flex-col items-center justify-center">
+        <div data-aos-duration="2000"
+          data-aos="fade-up" className="block md:hidden h-screen pt-16 text-center mx-4">
+          <div data-aos-duration="2000"
+          data-aos="fade-up" className="bg-red-100 rounded-full h-[300px] w-[300px] mx-auto flex flex-col items-center justify-center">
             <p className="text-9xl font-extrabold text-purple-700 text-center ">
               3
             </p>
@@ -210,8 +241,10 @@ const RegistrationForm = () => {
             </h1>
           </div>
         </div>
-        <div className="block md:hidden h-screen pt-16 text-center mx-4">
-          <div className="bg-red-100 rounded-full h-[300px] w-[300px] mx-auto flex flex-col items-center justify-center">
+        <div data-aos-duration="2000"
+          data-aos="fade-up" className="block md:hidden h-screen pt-16 text-center mx-4">
+          <div data-aos-duration="2000"
+          data-aos="fade-up" className="bg-red-100 rounded-full h-[300px] w-[300px] mx-auto flex flex-col items-center justify-center">
             <p className="text-9xl font-extrabold text-purple-900 text-center ">
               4
             </p>
@@ -221,19 +254,53 @@ const RegistrationForm = () => {
           </div>
         </div>
 
-        {/* <div className="h-screen">
-          <h2 className="mx-auto text-center">
-            Mozisha offers jobs in the following area
+        <div data-aos-duration="2000"
+          data-aos="fade-up" className="h-screen bg-purple-100 flex flex-col items-left py-16 mb-16">
+          <h2 className="mx-auto text-left">
+            Mozisha offers jobs in the following area:
           </h2>
           <ul className="text-center max-w-lg md:mx-auto h-screen mx-4">
-             
+              {/* <span className="flex flex-row md:items-center gap-4 mt-16">
+              <FcSalesPerformance className="text-3xl text-left"/> 
+              <li> Marketing (digital marketing, graphics
+                designs, Sales )</li>
+              </span> */}
+              <span className="flex flex-row md:items-center gap-4 mt-16">
+              <SiCoinmarketcap className="text-3xl text-left"/> 
+              <li> Digital Marketing</li>
+              </span>
+              <span className="flex flex-row md:items-center gap-4 mt-8">
+              <FcSalesPerformance className="text-3xl text-left"/> 
+              <li> Sales and BD</li>
+              </span>
+              <span className="flex flex-row md:items-center gap-4 mt-8">
+              <TbSeo className="text-3xl text-left"/> 
+              <li> SEO</li>
+              </span>
+              <span className="flex flex-row md:items-center gap-4 mt-8">
+              <AiOutlineDatabase className="text-3xl text-left"/> 
+              <li> Data and Reporting</li>
+              </span>
+              <span className="flex flex-row md:items-center gap-4 mt-8">
+              <SiAltiumdesigner className="text-3xl text-left"/> 
+              <li> Designer</li>
+              </span>
+              <span className="flex flex-row md:items-center gap-4 mt-8">
+              <BiNetworkChart className="text-3xl text-left"/> 
+              <li> Operation</li>
+              </span>
+              <span className="flex flex-row md:items-center gap-4 mt-8">
+              <GrUserAdmin className="text-3xl text-left"/> 
+              <li> Executive Admin</li>
+              </span>
              
               
             
           </ul>
-        </div> */}
+        </div>
 
-        <div className="max-w-sm mx-auto h-screen mt-8 px-4 my-8">
+        <div data-aos-duration="2000"
+          data-aos="fade-up" className="max-w-sm mx-auto h-screen mt-8 px-4 my-8">
           <h2 className="text-2xl font-semibold mb-4">
             Sign up to find dignified work.
           </h2>
@@ -241,7 +308,7 @@ const RegistrationForm = () => {
             ref={form}
             onSubmit={handleSubmit}
             className="flex flex-col gap-4 justify-center mt-8">
-            <div className="mb-4">
+            <div  className="mb-4">
               <label
                 htmlFor="firstName"
                 className="block mb-4 text-gray-600 text-sm font-medium">
@@ -258,7 +325,7 @@ const RegistrationForm = () => {
                 className="w-full border py-2 px-3 rounded-lg focus:outline-none focus:ring focus:border-[#7e22ce]"
               />
             </div>
-            <div className="mb-4">
+            <div  className="mb-4">
               <label
                 htmlFor="lastName"
                 className="block  mb-4  text-gray-600 text-sm font-medium">
@@ -275,7 +342,7 @@ const RegistrationForm = () => {
                 className="w-full border py-2 px-3 rounded-lg focus:outline-none focus:ring focus:border-[#7e22ce] outline-none"
               />
             </div>
-            <div className="mb-4">
+            <div  className="mb-4">
               <label
                 htmlFor="email"
                 className="block  mb-4  text-gray-600 text-sm font-medium">
@@ -311,7 +378,7 @@ const RegistrationForm = () => {
             </div>
             {/* Conditionally render the spinner */}
             {isLoading ? (
-              <div className="text-center">
+              <div >
                 <RingLoader color={"#7e22ce"} loading={isLoading} size={50} />
               </div>
             ) : (
