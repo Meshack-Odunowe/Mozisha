@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { RingLoader } from "react-spinners";
 import img from "../assets/howtoregister.jpg";
 import "react-toastify/dist/ReactToastify.css";
+
+
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -218,6 +220,18 @@ const RegistrationForm = () => {
             </h1>
           </div>
         </div>
+
+        {/* <div className="h-screen">
+          <h2 className="mx-auto text-center">
+            Mozisha offers jobs in the following area
+          </h2>
+          <ul className="text-center max-w-lg md:mx-auto h-screen mx-4">
+             
+             
+              
+            
+          </ul>
+        </div> */}
 
         <div className="max-w-sm mx-auto h-screen mt-8 px-4 my-8">
           <h2 className="text-2xl font-semibold mb-4">
