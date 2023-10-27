@@ -1,61 +1,82 @@
 import { useState } from "react";
-import {  BsPersonWorkspace } from "react-icons/bs";
+import { BsPersonWorkspace } from "react-icons/bs";
 import { PiStudentFill } from "react-icons/pi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function ForTalents() {
   const [selectedSection, setSelectedSection] = useState(null);
-
+  const [hasError, setHasError] = useState(false);
+  const navigate = useNavigate();
+  
   const handleFreelancerClick = () => {
     setSelectedSection("freelancer");
+    setHasError(false);
   };
 
   const handleStudentClick = () => {
     setSelectedSection("student");
+    setHasError(false);
   };
 
-  const sectionClassName = (section) => {
-    return `border p-6 shadow-lg rounded-md ${
-      selectedSection === section ? "bg-purple-700 text-white" : "bg-purple-50"
-    }`;
-  };
+  const buttonText =
+    selectedSection === "freelancer"
+      ? "Sign up as a skilled talent"
+      : selectedSection === "student"
+      ? "Sign up as a student"
+      : "Create an account";
 
-  const iconClassName = (section) => {
-    return selectedSection === section ? "text-white" : "text-purple-700";
+  const handleCreateAccountClick = () => {
+    if (!selectedSection) {
+      setHasError(true);
+
+    } else {
+      if (selectedSection === "freelancer") {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+
+        navigate("/register");
+      } else if (selectedSection === "student") {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+
+        navigate("/students");
+      }
+    }
   };
 
   return (
     <div className="h-screen max-w-[800px] mx-auto">
       <h1 className="text-center font-bold text-3xl my-8 px-4">
-        Join as a freelancer or student?
-      </h1>
+Join as a skilled talent or learner.      </h1>
       <div className="px-4 mx-auto flex flex-col justify-between md:flex-row gap-8">
-        <div onClick={handleFreelancerClick} className={sectionClassName("freelancer")}>
+        <div onClick={handleFreelancerClick} className={`border p-6 shadow-lg rounded-md ${selectedSection === "freelancer" ? "bg-purple-700 text-white" : "bg-purple-50"}`}>
           <div className="flex justify-between mx-4">
-            <span className={`text-4xl text-center font-bold ${iconClassName("freelancer")}`}>
+            <span className={`text-4xl text-center font-bold ${selectedSection === "freelancer" ? "text-white" : "text-purple-700"}`}>
               <BsPersonWorkspace />
             </span>
           </div>
           <p className={`mx-4 m-8 text-2xl`}>
-            I am a freelancer, looking for work.
-          </p>
+I am a skilled talent looking for a job.          </p>
         </div>
-        <div onClick={handleStudentClick} className={sectionClassName("student")}>
+        <div onClick={handleStudentClick} className={`border p-6 shadow-lg rounded-md ${selectedSection === "student" ? "bg-purple-700 text-white" : "bg-purple-50"}`}>
           <div className="flex justify-between mx-4">
-            <span className={`text-4xl text-center font-bold ${iconClassName("student")}`}>
+            <span className={`text-4xl text-center font-bold ${selectedSection === "student" ? "text-white" : "text-purple-700"}`}>
               <PiStudentFill />
             </span>
           </div>
           <p className={`mx-4 m-8 text-2xl`}>
-            I am a student, looking to learn.
-          </p>
+I want to acquire new skills   .       </p>
         </div>
       </div>
-      <Link to={selectedSection === "freelancer" ? "/freelancer-signup" : "/student-signup"}>
-        <button className="text-center mx-auto bg-purple-700 text-white px-4 py-2 rounded-md flex items-center justify-center mt-8">
-          Sign up as {selectedSection === "freelancer" ? "a freelancer" : "a student"}
+      {hasError && (
+        <p className="text-red-500 text-sm mt-2 text-center">Kindly choose from the options above.</p>
+      )}
+      <div className="text-center mt-8">
+        <button
+          onClick={handleCreateAccountClick}
+          className={`text-center mx-auto bg-purple-700 text-white px-4 py-2 rounded-md flex items-center justify-center ${!selectedSection ? 'opacity-50 cursor-not-allowed' : ''}`}
+        >
+          {buttonText}
         </button>
-      </Link>
+      </div>
     </div>
   );
 }

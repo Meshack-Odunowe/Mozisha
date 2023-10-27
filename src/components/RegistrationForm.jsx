@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { useState,useRef } from "react";
 import { GoogleLogin } from "react-oauth-google";
 import emailjs from "@emailjs/browser";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { css } from "@emotion/react";
+import { RingLoader } from "react-spinners";
 
+import "react-toastify/dist/ReactToastify.css";
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -9,43 +14,113 @@ const RegistrationForm = () => {
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const form = useRef();
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  const sendEmail = async (data) => {
-    try {
-      await emailjs.send(
-        "service_1kjbpag",
-        "template_81k3zcp",
-        data,
+
+  const sendEmail = () => {
+    emailjs
+      .sendForm(
+        "service_f47hszb",
+        "template_ond7ufa",
+        form.current, // Use the ref to the form element
         "oCtQ4YXyDy5Xm4BQm"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
       );
-      console.log("Email sent successfully");
-    } catch (error) {
-      console.error("Email sending error:", error);
-    }
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const emailData = {
-      to_email: formData.email,
-      from_name: "Your Name",
-      // Add other email content as needed
-    };
+    setIsLoading(true);
+    // Check form validity before proceeding
+    if (
+      formData.firstName === "" ||
+      formData.lastName === "" ||
+      formData.email === ""
+    ) {
+      // Display a toast notification for form validation errors
+      toast.error("Please fill in all required fields.", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+      return;
+    }
 
     // Send the email
-    sendEmail(emailData);
+    sendEmail();
 
-    // Handle form submission, e.g., sending data to your server and sending an email.
-    // You can use email.js or any other library to send an email here.
+    const url =
+      "https://mozisha-47b2f-default-rtdb.firebaseio.com/talents.json";
+
+    const formDataToSave = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formDataToSave),
+      });
+
+      if (response.ok) {setIsLoading(false);
+
+        // Display a success toast notification
+        toast.success("Form submitted successfully!", {
+          position: "top-right",
+          autoClose: 2000,
+          onClose: () => {
+            // Redirect to the success page after success
+            navigate("/success");
+          },
+        });
+      } else {
+        // Display an error toast notification if data could not be saved
+        toast.error("Data could not be saved.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+    } catch (error) {
+      // Display an error toast notification for general errors
+      toast.error("An error occurred.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      console.error("Error:", error);
+    }
+
+    // Clear the form fields after submission
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+    });
   };
 
+
   return (
-    <div className="max-w-sm mx-auto h-screen mt-8 px-4">
-      <h2 className="text-2xl font-semibold mb-4">Create an Account</h2>
-      <form
+    <div className="max-w-sm mx-auto h-screen mt-8 px-4 my-8">
+      <h2 className="text-2xl font-semibold mb-4">sign uo to find dignified work</h2>
+      <form ref={form}
         onSubmit={handleSubmit}
         className="flex flex-col gap-4 justify-center mt-8">
         <div className="mb-4">
@@ -62,7 +137,7 @@ const RegistrationForm = () => {
             value={formData.firstName}
             onChange={handleInputChange}
             required
-            className="w-full border py-2 px-3 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            className="w-full border py-2 px-3 rounded-lg focus:outline-none focus:ring focus:border-[#7e22ce]"
           />
         </div>
         <div className="mb-4">
@@ -79,7 +154,7 @@ const RegistrationForm = () => {
             value={formData.lastName}
             onChange={handleInputChange}
             required
-            className="w-full border py-2 px-3 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            className="w-full border py-2 px-3 rounded-lg focus:outline-none focus:ring focus:border-[#7e22ce] outline-none"
           />
         </div>
         <div className="mb-4">
@@ -96,7 +171,7 @@ const RegistrationForm = () => {
             value={formData.email}
             onChange={handleInputChange}
             required
-            className="w-full border py-2 px-3 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            className="w-full border py-2 px-3 rounded-lg focus:outline-none focus:ring focus:border-[#7e22ce]"
           />
         </div>
         <div className="mb-6">
@@ -113,33 +188,25 @@ const RegistrationForm = () => {
             value={formData.password}
             onChange={handleInputChange}
             required
-            className="w-full border py-2 px-3 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            className="w-full border py-2 px-3 rounded-lg focus:outline-none focus:ring focus:border-[#7e22ce]"
           />
         </div>
-        <button
-          type="submit"
-          className="w-full bg-purple-500 text-white py-2 px-3 rounded-lg hover:bg-purple-700  mb-4  transition duration-300">
-          Create My Account
-        </button>
+         {/* Conditionally render the spinner */}
+  {isLoading ? (
+    <div className="text-center">
+      <RingLoader color={"#7e22ce"} loading={isLoading} size={50} />
+    </div>
+  ) : (
+    <button
+      type="submit"
+      className="w-full bg-purple-500 text-white py-2 px-3 rounded-lg hover:bg-purple-700  mb-4  transition duration-300"
+    >
+      Create My Account
+    </button>
+  )}
       </form>
-      <p className="text-gray-600 text-sm mb-8 mt-2">
-        Already have an account?{" "}
-        <a href="/login" className="text-purple-500 font-bold  hover:underline">
-          Login
-        </a>
-      </p>
-
-      {/* Google Authentication Component */}
-      <GoogleLogin
-        onSuccess={(user) => {
-          console.log("Google authentication successful:", user);
-          // Handle the Google authentication response (e.g., log in the user).
-        }}
-        onError={(error) => {
-          console.error("Google authentication error:", error);
-          // Handle any authentication errors.
-        }}
-      />
+      {/* 
+      /> */}
     </div>
   );
 };

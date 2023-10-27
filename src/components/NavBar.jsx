@@ -68,10 +68,10 @@ function NavBar() {
                 <Link to="business"> Businesses</Link>
               </li>
               <li onClick={closeMenu} className="  cursor-pointer">
-                <Link to="workinprogress"> Talents</Link>
+                <Link to="fortalents"> Talents</Link>
               </li>
               <li onClick={closeMenu} className="  cursor-pointer">
-                <Link to="workinprogress">Blog</Link>
+                <Link to="blog">Blog</Link>
               </li>
             </ul>
           </nav>
@@ -115,7 +115,7 @@ function NavBar() {
             </li>
 
             <li onClick={handleGetStartedClick} className="px-4 py-4">
-              <Link to="workinprogress"> Talents</Link>
+              <Link to="fortalents"> Talents</Link>
             </li>
             <li className="px-4 py-4">
               <Link to="workinprogress">Blog</Link>

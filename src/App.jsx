@@ -23,11 +23,22 @@ import Business from "./components/Business";
 import SuccessPage from "./components/SuccessPage";
 import { ToastContainer } from "react-toastify";
 import ForTalents from "./components/ForTalents";
-import FreelancerSignUp from "./components/FreelancerSignUp";
-import StudentSignUp from "./components/StudentSignUp";
+// import FreelancerSignUp from "./components/FreelancerSignUp";
+import Students from "./components/Students";
 import RegistrationForm from "./components/RegistrationForm";
-
+// import { useState } from "react";
+// import { signOut } from "firebase/auth";
+// import { auth } from "./firebase/firebase";
+import Blog from "./components/Blog";
 function App() {
+  // const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
+  // const signUserOut = () => {
+  //   signOut(auth).then(() => {
+  //     localStorage.clear();
+  //     setIsAuth(false);
+  //     window.location.pathname = "/login";
+  //   });
+  // };
   return (
     <div>
       
@@ -43,12 +54,13 @@ function App() {
             <Route path="/signup" element={<TalentSignUp />} />
             <Route path="/business" element={<Business />} />
             <Route path="/dashboard" element={<Dashboard />} />{" "}
-            <Route path="/student-signup" element={<StudentSignUp />} />
-            <Route path="/freelancer-signup" element={<FreelancerSignUp />} />
+            <Route path="/students" element={<Students />} />
+            {/* <Route path="/freelancer-signup" element={<FreelancerSignUp />} /> */}
             <Route path="/workinprogress" element={<WorkInProgress />} />
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/fortalents" element={<ForTalents />} />
             <Route path="/register" element={<RegistrationForm />} />
+            <Route path="/blog" element={<Blog />} />
           </Route>
           <Route path="*" element={<ErrorPage />} />
         </Routes>
