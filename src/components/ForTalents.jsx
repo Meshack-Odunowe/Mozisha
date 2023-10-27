@@ -31,9 +31,9 @@ function ForTalents() {
 
     } else {
       if (selectedSection === "freelancer") {
+        navigate("/register");
     window.scrollTo(0, 0); // Scroll to the top of the page
 
-        navigate("/register");
       } else if (selectedSection === "student") {
     window.scrollTo(0, 0); // Scroll to the top of the page
 
@@ -70,6 +70,7 @@ I want to acquire new skills   .       </p>
         <p className="text-red-500 text-sm mt-2 text-center">Kindly choose from the options above.</p>
       )}
       <div className="text-center mt-8">
+        
         <button
           onClick={handleCreateAccountClick}
           className={`text-center mx-auto bg-purple-700 text-white px-4 py-2 rounded-md flex items-center justify-center ${!selectedSection ? 'opacity-50 cursor-not-allowed' : ''}`}
