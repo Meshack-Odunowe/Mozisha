@@ -5,32 +5,34 @@ import { useNavigate } from "react-router-dom";
 import { RingLoader } from "react-spinners";
 import img from "../assets/howtoregister.jpg";
 import "react-toastify/dist/ReactToastify.css";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import { FcSalesPerformance } from "react-icons/fc";
 import { SiAltiumdesigner } from "react-icons/si";
 import { BiNetworkChart } from "react-icons/bi";
 import { AiOutlineDatabase } from "react-icons/ai";
 import { SiCoinmarketcap } from "react-icons/si";
-// import { GiReceiveMoney } from "react-icons/gi";
-// import {MdComputer} from "react-icons/md"
-// import { HiOutlineComputerDesktop } from "react-icons/hi";
-import AOS from "aos";
-import "aos/dist/aos.css";
 
 const RegistrationForm = () => {
   useEffect(() => {
     AOS.init();
     AOS.refresh();
   }, []);
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    password: "",
+    text: "",
+    cvLink: "", // Add a new field for CV link
   });
+
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useRef();
   const navigate = useNavigate();
+
+  const [registeredEmails, setRegisteredEmails] = useState([]); // Keep track of registered emails
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -58,30 +60,40 @@ const RegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    // Check form validity before proceeding
+
     if (
       formData.firstName === "" ||
       formData.lastName === "" ||
       formData.email === ""
     ) {
-      // Display a toast notification for form validation errors
       toast.error("Please fill in all required fields.", {
         position: "top-right",
         autoClose: 2000,
       });
+      setIsLoading(false);
       return;
     }
 
-    // Send the email
+    // Check if the email is already registered
+    if (registeredEmails.includes(formData.email)) {
+      toast.error("Email is already registered.", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+      setIsLoading(false);
+      return;
+    }
+
     sendEmail();
 
-    const url =
-      "https://mozisha-47b2f-default-rtdb.firebaseio.com/talents.json";
+    const url = "https://mozisha-47b2f-default-rtdb.firebaseio.com/talents.json";
 
     const formDataToSave = {
       firstName: formData.firstName,
       lastName: formData.lastName,
       email: formData.email,
+      text: formData.text,
+      cvLink: formData.cvLink, // Include the CV link
     };
 
     try {
@@ -95,25 +107,23 @@ const RegistrationForm = () => {
 
       if (response.ok) {
         setIsLoading(false);
-
-        // Display a success toast notification
         toast.success("Form submitted successfully!", {
           position: "top-right",
           autoClose: 2000,
           onClose: () => {
-            // Redirect to the success page after success
             navigate("/success");
           },
         });
+
+        // Add the registered email to the list
+        setRegisteredEmails([...registeredEmails, formData.email]);
       } else {
-        // Display an error toast notification if data could not be saved
         toast.error("Data could not be saved.", {
           position: "top-right",
           autoClose: 3000,
         });
       }
     } catch (error) {
-      // Display an error toast notification for general errors
       toast.error("An error occurred.", {
         position: "top-right",
         autoClose: 3000,
@@ -121,12 +131,13 @@ const RegistrationForm = () => {
       console.error("Error:", error);
     }
 
-    // Clear the form fields after submission
     setFormData({
       firstName: "",
       lastName: "",
       email: "",
       password: "",
+      text: "",
+      cvLink: "", // Clear the CV link field
     });
   };
 
@@ -327,7 +338,7 @@ const RegistrationForm = () => {
         <div
           data-aos-duration="2000"
           data-aos="fade-up"
-          className="max-w-sm mx-auto h-screen mt-8 px-4 my-8">
+          className="md:max-w-lg mx-auto h-screen mt-8 px-4 my-24">
           <h2 className="text-2xl font-semibold mb-4">
             Sign up to find dignified work.
           </h2>
@@ -385,6 +396,36 @@ const RegistrationForm = () => {
                 required
                 className="w-full border py-2 px-3 rounded-lg focus:outline-none focus:ring focus:border-[#7e22ce]"
               />
+              <label
+        htmlFor="cvLink"
+        className="block my-4 text-gray-600 text-sm font-medium">
+        Link To CV
+      </label>
+      <input
+        type="text"
+        id="cvLink"
+        name="cvLink"
+        placeholder="Provide Google Drive CV link"
+        value={formData.cvLink}
+        onChange={handleInputChange}
+        required
+        className="w-full border py-2 px-3 rounded-lg focus:outline-none focus:ring focus:border-[#7e22ce]"
+      />
+      <label
+        htmlFor="text"
+        className="block my-4 text-gray-600 text-sm font-medium">
+        Tell us about yourself (500 characters maximum)
+      </label>
+      <textarea
+        id="text"
+        name="text"
+        placeholder="Tell us about yourself..."
+        value={formData.text}
+        onChange={handleInputChange}
+        maxLength={500} // Set a maximum character limit
+        rows={4} // You can adjust the number of rows as needed
+        className="w-full border py-2 px-3 rounded-lg focus:outline-none focus:ring focus:border-[#7e22ce]"
+      />
             </div>
             <div className="mb-6">
               <label
@@ -415,9 +456,9 @@ const RegistrationForm = () => {
                 Create My Account
               </button>
             )}
+
           </form>
-          {/* 
-      /> */}
+        
         </div>
       </div>
     </>
