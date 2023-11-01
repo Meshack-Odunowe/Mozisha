@@ -3,6 +3,7 @@ import {
   Routes,
   Route,
   Outlet,
+  Link,
 } from "react-router-dom";
 import "./App.css";
 import Hero from "./components/Hero";
@@ -12,7 +13,7 @@ import NavBar from "./components/NavBar";
 import About from "./components/About";
 
 import Testimonial from "./components/Testimonial";
-
+import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer";
 
 import TalentLogin from "./components/TalentLogin";
@@ -23,34 +24,39 @@ import Business from "./components/Business";
 import SuccessPage from "./components/SuccessPage";
 import { ToastContainer } from "react-toastify";
 import ForTalents from "./components/ForTalents";
-// import FreelancerSignUp from "./components/FreelancerSignUp";
 import Students from "./components/Students";
 import RegistrationForm from "./components/RegistrationForm";
-// import { useState } from "react";
-// import { signOut } from "firebase/auth";
-// import { auth } from "./firebase/firebase";
-import Blog from "./components/Blog";
+
+import { useState } from "react";
+import { signOut } from "firebase/auth";
+import CreatePost from "./pages/CreatePost";
+import Login from "./pages/Login";
+import Homes from "./pages/Homes";
+import EditPost from "./pages/EditPost";
+import FullPost from './pages/FullPost'
 function App() {
-  // const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
-  // const signUserOut = () => {
-  //   signOut(auth).then(() => {
-  //     localStorage.clear();
-  //     setIsAuth(false);
-  //     window.location.pathname = "/login";
-  //   });
-  // };
+  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
+
+  const signUserOut = () => {
+    signOut(auth).then(() => {
+      localStorage.clear();
+      setIsAuth(true);
+      window.location.pathname = "/login";
+    });
+  };
+
   return (
     <div>
-      
       <Router>
         <NavBar />
+       
         <Routes>
           <Route path="/" element={<Outlet />}>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/hero" element={<Hero />} />
             <Route path="/testimonials" element={<Testimonial />} />
-            <Route path="/login" element={<TalentLogin />} />
+            {/* <Route path="/login" element={<TalentLogin />} /> */}
             <Route path="/signup" element={<TalentSignUp />} />
             <Route path="/business" element={<Business />} />
             <Route path="/dashboard" element={<Dashboard />} />{" "}
@@ -60,13 +66,22 @@ function App() {
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/fortalents" element={<ForTalents />} />
             <Route path="/register" element={<RegistrationForm />} />
-            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog" element={<Homes isAuth={isAuth} />} />
+            <Route
+              path="/createpost"
+              element={<CreatePost isAuth={isAuth} />}
+            />
+            <Route path="/login" element={<Login setIsAuth={setIsAuth} />} />
+            <Route path="/edit-post/:postId" element={<EditPost />} />
           </Route>
+           {/* Add a new route for displaying full posts */}
+           <Route path="/full-post/:postId" element={<FullPost />} />
+
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />
+        <ToastContainer autoClose={5000} />
       </Router>{" "}
-      <ToastContainer />
     </div>
   );
 }

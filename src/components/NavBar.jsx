@@ -118,7 +118,7 @@ function NavBar() {
               <Link to="fortalents"> Talents</Link>
             </li>
             <li className="px-4 py-4">
-              <Link to="workinprogress">Blog</Link>
+              <Link to="blog">Blog</Link>
             </li>
           </ul>
         </div>

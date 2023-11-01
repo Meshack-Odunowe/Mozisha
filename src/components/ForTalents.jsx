@@ -23,7 +23,7 @@ function ForTalents() {
       ? "Sign up as a skilled talent"
       : selectedSection === "student"
       ? "Sign up as a student"
-      : "Create an account";
+      : "Sign Up";
 
   const handleCreateAccountClick = () => {
     if (!selectedSection) {
@@ -43,7 +43,7 @@ function ForTalents() {
   };
 
   return (
-    <div className="h-screen max-w-[800px] mx-auto">
+    <div className="h-screen max-w-[800px] mx-auto ">
       <h1 className="text-center font-bold text-3xl my-8 px-4">
 Join as a skilled talent or learner.      </h1>
       <div className="px-4 mx-auto flex flex-col justify-between md:flex-row gap-8">
@@ -53,7 +53,7 @@ Join as a skilled talent or learner.      </h1>
               <BsPersonWorkspace />
             </span>
           </div>
-          <p className={`mx-4 m-8 text-2xl`}>
+          <p className={`mx-4 m-8 text-lg`}>
 I am a skilled talent looking for a job.          </p>
         </div>
         <div onClick={handleStudentClick} className={`border p-6 shadow-lg rounded-md ${selectedSection === "student" ? "bg-purple-700 text-white" : "bg-purple-50"}`}>
@@ -62,7 +62,7 @@ I am a skilled talent looking for a job.          </p>
               <PiStudentFill />
             </span>
           </div>
-          <p className={`mx-4 m-8 text-2xl`}>
+          <p className={`mx-4 m-8 text-lg`}>
 I want to acquire new skills   .       </p>
         </div>
       </div>

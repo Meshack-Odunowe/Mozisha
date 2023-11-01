@@ -135,7 +135,6 @@ const RegistrationForm = () => {
       firstName: "",
       lastName: "",
       email: "",
-      password: "",
       text: "",
       cvLink: "", // Clear the CV link field
     });
@@ -143,7 +142,7 @@ const RegistrationForm = () => {
 
   return (
     <>
-      <div data-aos-duration="2000" data-aos="fade-up">
+      <div data-aos-duration="2000" data-aos="fade-up " className="mb-60">
         <div
           data-aos-duration="2000"
           data-aos="fade-up"
@@ -247,7 +246,7 @@ const RegistrationForm = () => {
               1
             </p>
             <h1 className="text-center leading-8 text-purple-500">
-              Fill out the job application form.
+              Fill Out the Job Application Form.
             </h1>
           </div>
         </div>
@@ -279,7 +278,7 @@ const RegistrationForm = () => {
               3
             </p>
             <h1 className="text-center leading-8 text-purple-500">
-              Complete skills assessment{" "}
+              Complete Skills Assessment{" "}
             </h1>
           </div>
         </div>
@@ -295,7 +294,7 @@ const RegistrationForm = () => {
               4
             </p>
             <h1 className="text-center leading-8 text-purple-500">
-              Get laced And Start Earning.{" "}
+              Get Placed and Start Earning.{" "}
             </h1>
           </div>
         </div>
@@ -305,7 +304,7 @@ const RegistrationForm = () => {
           data-aos="fade-up"
           className="h-screen bg-purple-100 flex flex-col items-left py-16 mb-16">
           <h2 className="mx-auto text-left">
-            Mozisha offers jobs in the following area:
+            Mozisha offers jobs in the following areas:
           </h2>
           <ul className="text-center max-w-lg md:mx-auto h-screen mx-4">
             <span className="flex flex-row md:items-center gap-4 mt-16">
@@ -316,10 +315,7 @@ const RegistrationForm = () => {
               <FcSalesPerformance className="text-3xl text-left text-purple-700" />
               <li> Sales and Business Development</li>
             </span>
-            {/* <span className="flex flex-row md:items-center gap-4 mt-8">
-              <TbSeo className="text-3xl text-left text-purple-700"/> 
-              <li> SEO</li>
-              </span> */}
+           
             <span className="flex flex-row md:items-center gap-4 mt-8">
               <AiOutlineDatabase className="text-3xl text-left text-purple-700" />
               <li> Data and Reporting</li>
@@ -427,23 +423,7 @@ const RegistrationForm = () => {
         className="w-full border py-2 px-3 rounded-lg focus:outline-none focus:ring focus:border-[#7e22ce]"
       />
             </div>
-            <div className="mb-6">
-              <label
-                htmlFor="password"
-                className="block  mb-4  text-gray-600 text-sm font-medium">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-                className="w-full border py-2 px-3 rounded-lg focus:outline-none focus:ring focus:border-[#7e22ce]"
-              />
-            </div>
+            
             {/* Conditionally render the spinner */}
             {isLoading ? (
               <div>
@@ -453,8 +433,7 @@ const RegistrationForm = () => {
               <button
                 type="submit"
                 className="w-full bg-purple-500 text-white py-2 px-3 rounded-lg hover:bg-purple-700  mb-4  transition duration-300">
-                Create My Account
-              </button>
+Submit              </button>
             )}
 
           </form>
