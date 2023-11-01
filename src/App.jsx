@@ -75,7 +75,7 @@ function App() {
             <Route path="/edit-post/:postId" element={<EditPost />} />
           </Route>
            {/* Add a new route for displaying full posts */}
-           <Route path="/full-post/:postId" element={<FullPost />} />
+           <Route path="/full-post/:postId" element={<FullPost isAuth={isAuth}/>} />
 
           <Route path="*" element={<ErrorPage />} />
         </Routes>
