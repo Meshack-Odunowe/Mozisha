@@ -1,9 +1,9 @@
-import { getDownloadURL, ref, getStorage } from 'firebase/storage';
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import { doc, getDoc, deleteDoc } from 'firebase/firestore';
 import { db, auth } from '../firebase/firebase';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ClipLoader } from 'react-spinners'; // Import ClipLoader
 
@@ -15,6 +15,8 @@ function FullPost({ isAuth }) {
 
   const deletePost = async (postId) => {
     try {
+    window.scrollTo(0, 0);
+
       const postDocRef = doc(db, 'Posts', postId);
       await deleteDoc(postDocRef);
       notifySuccess('Post deleted successfully!');
@@ -25,6 +27,8 @@ function FullPost({ isAuth }) {
   };
 
   const editPost = (postId) => {
+    window.scrollTo(0, 0);
+
     navigate(`/edit-post/${postId}`);
   };
 
@@ -64,11 +68,11 @@ function FullPost({ isAuth }) {
 
   return (
     <div className="max-w-5xl mx-auto leading-8 px-8 h-full">
-      {loadingInProgress ? (
+      {loadingInProgress ? 
         <div className="flex justify-center items-center h-screen">
           <ClipLoader color="purple" size={50} />
         </div>
-      ) : (
+       : (
         post ? (
           <div>
             <h1 className="text-center font-bold text-4xl my-8">{post.title}</h1>

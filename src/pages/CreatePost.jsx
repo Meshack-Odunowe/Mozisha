@@ -23,9 +23,12 @@ function CreatePost({ isAuth }) {
   const storage = getStorage();
 
   const createPost = async () => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+
     if (title.trim() === "" || postText.trim() === "") {
       alert("Please provide both a title and post text.");
       return;
+
     }
 
     setLoading(true);

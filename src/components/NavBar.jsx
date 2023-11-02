@@ -117,7 +117,7 @@ function NavBar() {
             <li onClick={handleGetStartedClick} className="px-4 py-4">
               <Link to="fortalents"> Talents</Link>
             </li>
-            <li className="px-4 py-4">
+            <li className="px-4 py-4" onClick={handleGetStartedClick}>
               <Link to="blog">Blog</Link>
             </li>
           </ul>

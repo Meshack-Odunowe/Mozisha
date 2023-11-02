@@ -7,14 +7,16 @@ function Login( ){
   let navigate = useNavigate();
 
   const signInWithGoogle = () => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
     signInWithPopup(auth, provider).then(() => {
       localStorage.setItem("isAuth", true);
       navigate("/blog");
+      
     });
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-8 h-screen px-4 ">
+    <div className="flex flex-col md:flex-row gap-8  px-4 ">
       <div className="bg-purple-100 relative md:rounded-e-full ">
         <img src={img} alt="image" className=" overflow-hidden  h-[700px] object-cover md:rounded-e-full shadow-2xl rounded-md" />
       </div>
