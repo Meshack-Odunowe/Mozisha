@@ -4,7 +4,8 @@ import { getDocs, collection } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 import { db } from '../firebase/firebase';
 import { ClipLoader } from 'react-spinners';
-
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase/firebase'; 
 function Homes() {
   const [loadingInProgress, setLoading] = useState(true); // Changed the initial state to true
   const [postList, setPostList] = useState([]);
@@ -48,8 +49,18 @@ function Homes() {
   const isAuth = localStorage.getItem('isAuth');
 
   const signUserOut = () => {
-    localStorage.removeItem('isAuth');
-    window.location.pathname = '/login';
+    signOut(auth)
+      .then(() => {
+        // Clear the authentication state, such as removing the "isAuth" item from local storage
+        localStorage.removeItem('isAuth');
+        
+        // Redirect to the desired location, e.g., the login page
+        navigate('/login'); // Make sure to import navigate from 'react-router-dom' or use your preferred routing library
+      })
+      .catch((error) => {
+        console.error('Error signing out:', error);
+        // Handle any errors that occur during sign out
+      });
   };
 
   return (

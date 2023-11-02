@@ -16,7 +16,6 @@ import Testimonial from "./components/Testimonial";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer";
 
-import TalentLogin from "./components/TalentLogin";
 import TalentSignUp from "./components/TalentSignUp";
 import Dashboard from "./components/Dashboard";
 import WorkInProgress from "./components/WorkInProgress";
@@ -26,9 +25,9 @@ import { ToastContainer } from "react-toastify";
 import ForTalents from "./components/ForTalents";
 import Students from "./components/Students";
 import RegistrationForm from "./components/RegistrationForm";
-
+import { signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
-import { signOut } from "firebase/auth";
 import CreatePost from "./pages/CreatePost";
 import Login from "./pages/Login";
 import Homes from "./pages/Homes";
@@ -37,13 +36,11 @@ import FullPost from './pages/FullPost'
 function App() {
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
 
-  const signUserOut = () => {
-    signOut(auth).then(() => {
-      localStorage.clear();
-      setIsAuth(true);
-      window.location.pathname = "/login";
-    });
-  };
+
+
+
+
+
 
   return (
     <div>
