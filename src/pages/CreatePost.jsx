@@ -116,7 +116,7 @@ function CreatePost({ isAuth }) {
         />
         <label className='font-bold mt-4 text-lg'>Post:</label>
         <ReactQuill
-          className='bg-white h'
+          className='bg-white  shadow-md rounded-md'
   value={editorHtml}
   onChange={setEditorHtml}
   modules={quillModules}
