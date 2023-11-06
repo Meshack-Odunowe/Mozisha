@@ -3,7 +3,6 @@ import {
   Routes,
   Route,
   Outlet,
-  Link,
 } from "react-router-dom";
 import "./App.css";
 import Hero from "./components/Hero";
@@ -25,8 +24,7 @@ import { ToastContainer } from "react-toastify";
 import ForTalents from "./components/ForTalents";
 import Students from "./components/Students";
 import RegistrationForm from "./components/RegistrationForm";
-import { signOut } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+
 import { useState } from "react";
 import CreatePost from "./pages/CreatePost";
 import Login from "./pages/Login";
@@ -77,7 +75,7 @@ function App() {
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />
-        <ToastContainer autoClose={5000} />
+        <ToastContainer autoClose={2000} />
       </Router>{" "}
     </div>
   );

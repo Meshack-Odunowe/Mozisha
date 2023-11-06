@@ -1,22 +1,24 @@
+
+
 import { getDownloadURL, ref, getStorage } from 'firebase/storage';
 import { useEffect, useState } from 'react';
 import { getDocs, collection } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
-import { db } from '../firebase/firebase';
 import { ClipLoader } from 'react-spinners';
 import { signOut } from 'firebase/auth';
-import { auth } from '../firebase/firebase'; 
+import { auth } from '../firebase/firebase';
+import { db } from '../firebase/firebase';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Homes() {
-  const [loadingInProgress, setLoading] = useState(true); // Changed the initial state to true
+  const [loadingInProgress, setLoading] = useState(true);
   const [postList, setPostList] = useState([]);
   const postsCollectionRef = collection(db, 'Posts');
   const storage = getStorage();
   const navigate = useNavigate();
-
   const handleGetStartedClick = () => {
-    window.scrollTo(0, 0); // Scroll to the top of the page
+    window.scrollTo(0, 0);
   };
-
   useEffect(() => {
     const getPosts = async () => {
       try {
@@ -46,33 +48,43 @@ function Homes() {
     getPosts();
   }, [navigate]);
 
-  const isAuth = localStorage.getItem('isAuth');
-
+  const user = auth.currentUser;
   const signUserOut = () => {
     signOut(auth)
       .then(() => {
-        // Clear the authentication state, such as removing the "isAuth" item from local storage
-        localStorage.removeItem('isAuth');
-        
-        // Redirect to the desired location, e.g., the login page
-        navigate('/login'); // Make sure to import navigate from 'react-router-dom' or use your preferred routing library
+        // Show a toast notification when the user logs out
+        toast.success('Logged out successfully', {
+          position: 'top-right',
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        navigate('/');
       })
       .catch((error) => {
         console.error('Error signing out:', error);
-        // Handle any errors that occur during sign out
       });
   };
+
 
   return (
     <>
       <nav className='my-8 justify-end max-w-7xl px-4 flex gap-4'>
-        {!isAuth ? (
-          <Link onClick={handleGetStartedClick} to='/login' className='bg-slate-100 text-black px-4 py-2 rounded-md hover:font-bold'> Login </Link>
-        ) : (
+        {user ? ( // Check if there is a logged-in user
           <>
-            <Link to='/createpost' className='bg-purple-700 text-white px-4 py-2 rounded-md hover:text-purple-200'> Create Post </Link>
-            <button onClick={signUserOut} className='bg-slate-100 text-black px-4 py-2 rounded-md hover:font-bold'> Log Out </button>
+            <Link to='/createpost' className='bg-purple-700 text-white px-4 py-2 rounded-md hover:text-purple-200'>
+              Create Post
+            </Link>
+            <button onClick={signUserOut} className='bg-slate-100 text-black px-4 py-2 rounded-md hover:font-bold'>
+              Log Out
+            </button>
           </>
+        ) : (
+          <Link onClick={handleGetStartedClick} to='/login' className='bg-slate-100 text-black px-4 py-2 rounded-md hover:font-bold'>
+            Login
+          </Link>
         )}
       </nav>
       {loadingInProgress ? (
@@ -81,7 +93,7 @@ function Homes() {
         </div>
       ) : (
         <div className='max-w-6xl bg-purple-100 mx-auto leading-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 justify-center px-4 py-4 items-center h-full mb-24'>
-          {postList.map((post) => (
+         {postList.map((post) => (
             <div className='shadow-lg flex flex-col justify-center px-8 rounded-md items-center hover:scale-110 bg-white  transition cursor-pointer h-[500px] overflow-hidden border' key={post.id}>
               <div>
                 <div>

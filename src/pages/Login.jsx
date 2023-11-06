@@ -1,18 +1,49 @@
-import { signInWithPopup } from "firebase/auth";
-import { auth, provider } from "../firebase/firebase";
-import { FcGoogle } from "react-icons/fc";
-import { useNavigate } from "react-router-dom";
-import img from "../assets/group.jpg";
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider } from '../firebase/firebase';
+import { FcGoogle } from 'react-icons/fc';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import img from '../assets/group.jpg';
+
 function Login() {
   let navigate = useNavigate();
 
   const signInWithGoogle = () => {
-    window.scrollTo(0, 0); // Scroll to the top of the page
+    window.scrollTo(0, 0);
 
-    signInWithPopup(auth, provider).then(() => {
-      localStorage.setItem("isAuth", true);
-      navigate("/blog");
-    });
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // Authentication was successful
+        console.log('User signed in:', result.user);
+
+        // Show a success toast notification
+        toast.success('Signed in successfully', {
+          position: 'top-right',
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+
+        navigate('/blog');
+      })
+      .catch((error) => {
+        // Authentication failed
+        console.error('Error signing in:', error);
+
+        // Show an error toast notification
+        toast.error('Error signing in. Please try again.', {
+          position: 'top-right',
+          autoClose: 1000, // You can adjust the duration
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
   };
 
   return (
@@ -32,7 +63,8 @@ function Login() {
           </p>
           <button
             className="py-2 flex items-center w-fit gap-4 px-6 bg-purple-700 rounded-md text-white"
-            onClick={signInWithGoogle}>
+            onClick={signInWithGoogle}
+          >
             <span className="text-2xl">
               <FcGoogle />
             </span>
