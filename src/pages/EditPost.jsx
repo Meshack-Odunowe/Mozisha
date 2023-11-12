@@ -1,20 +1,24 @@
 import { useState, useEffect } from 'react';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { useAuth } from '../AuthContext'; // Import your authentication context
 
 function EditPost() {
-  const { postId } = useParams(); // Get the postId from the URL
+  const { postId } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth(); // Get user information from the authentication context
+
   const [post, setPost] = useState({
     title: '',
     postText: '',
   });
 
   useEffect(() => {
-    // Fetch the post data based on postId
     const fetchPostData = async () => {
       try {
         const postDocRef = doc(db, 'Posts', postId);
@@ -43,10 +47,17 @@ function EditPost() {
     }));
   };
 
+  const handleQuillChange = (html) => {
+    setPost((prevPost) => ({
+      ...prevPost,
+      postText: html,
+    }));
+  };
+
   const notifySuccess = () => {
     toast.success('Post edited successfully!', {
       position: 'top-right',
-      autoClose: 2000, // Adjust the duration as needed
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -57,16 +68,43 @@ function EditPost() {
 
   const handleEditPost = async () => {
     try {
-          window.scrollTo(0, 0); // Scroll to the top of the page
+      window.scrollTo(0, 0);
       const postDocRef = doc(db, 'Posts', postId);
-      await updateDoc(postDocRef, {
-        title: post.title,
-        postText: post.postText,
-      });
-      notifySuccess(); // Show a success toast
-      navigate('/blog'); // Navigate to the blog page after editing
+
+      // Check if the user is the author of the post
+      if (user && postDocRef.author.id === user.uid) {
+        await updateDoc(postDocRef, {
+          title: post.title,
+          postText: post.postText,
+        });
+
+        notifySuccess();
+        navigate('/blog');
+      } else {
+        console.error('Unauthorized to edit this post.');
+        // Handle unauthorized access (redirect, toast, etc.)
+      }
     } catch (error) {
       console.error('Error editing post:', error);
+    }
+  };
+
+  const handleDeletePost = async () => {
+    try {
+      window.scrollTo(0, 0);
+      const postDocRef = doc(db, 'Posts', postId);
+
+      // Check if the user is the author of the post
+      if (user && postDocRef.author.id === user.uid) {
+        await deleteDoc(postDocRef);
+        notifySuccess();
+        navigate('/blog');
+      } else {
+        console.error('Unauthorized to delete this post.');
+        // Handle unauthorized access (redirect, toast, etc.)
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error);
     }
   };
 
@@ -81,10 +119,9 @@ function EditPost() {
         placeholder="Title"
         className="w-full border rounded-md p-2 mb-4"
       />
-      <textarea
-        name="postText"
+      <ReactQuill
         value={post.postText}
-        onChange={handleInputChange}
+        onChange={handleQuillChange}
         placeholder="Post text"
         className="w-full h-40 border rounded-md p-2 mb-4"
       />
@@ -94,7 +131,13 @@ function EditPost() {
       >
         Save Changes
       </button>
-      <ToastContainer /> {/* Add the toast container */}
+      <button
+        onClick={handleDeletePost}
+        className="bg-red-700 text-white px-4 py-2 rounded-md ml-2 hover:bg-red-600"
+      >
+        Delete Post
+      </button>
+      <ToastContainer />
     </div>
   );
 }

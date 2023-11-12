@@ -15,7 +15,6 @@ import {
 } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
-import DOMPurify from 'dompurify'; // Import DOMPurify
 
 // eslint-disable-next-line react/prop-types
 function CreatePost({ isAuth }) {
@@ -46,7 +45,9 @@ function CreatePost({ isAuth }) {
   ];
   
   const createPost = async () => {
-    window.scrollTo(0, 0); // Scroll to the top of the page
+    window.scrollTo(0, 0);
+  
+    
   
     if (title.trim() === '' || editorHtml.trim() === '') {
       toast.error('Please provide both a title and post text.');
@@ -55,22 +56,35 @@ function CreatePost({ isAuth }) {
   
     setLoading(true);
   
-    if (image) {
-      const imageRef = ref(storage, 'post-images/' + image.name);
-      await uploadBytes(imageRef, image);
-      const imageUrl = await getDownloadURL(imageRef);
+    console.log('Before adding post to Firestore');
   
-      await addDoc(postsCollectionRef, {
-        title,
-        postText: editorHtml, // Use the content from the Quill editor
-        imageUrl,
-        author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
-      });
+    try {
+      if (image) {
+        const imageRef = ref(storage, 'post-images/' + image.name);
+        await uploadBytes(imageRef, image);
+        const imageUrl = await getDownloadURL(imageRef);
+  
+        await addDoc(postsCollectionRef, {
+          title,
+          postText: editorHtml,
+          imageUrl,
+          author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
+        });
+  
+        console.log('Firestore operation successful');
+      } else {
+        await addDoc(postsCollectionRef, {
+          title,
+          postText: editorHtml,
+          author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
+        });
+  
+        console.log('Firestore operation successful');
+      }
   
       setLoading(false);
       navigate('/blog');
   
-      // Show a success toast notification
       toast.success('Post created successfully', {
         position: 'top-right',
         hideProgressBar: false,
@@ -79,27 +93,12 @@ function CreatePost({ isAuth }) {
         draggable: true,
         progress: undefined,
       });
-    } else {
-      await addDoc(postsCollectionRef, {
-        title,
-        postText: editorHtml, // Use the content from the Quill editor
-        author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
-      });
-  
+    } catch (error) {
+      console.error('Error in Firestore operation:', error);
       setLoading(false);
-      navigate('/blog');
-  
-      // Show a success toast notification
-      toast.success('Post created successfully', {
-        position: 'top-right',
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
     }
   };
+  
   
 
   return (

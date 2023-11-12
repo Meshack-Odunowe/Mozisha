@@ -30,21 +30,17 @@ import CreatePost from "./pages/CreatePost";
 import Login from "./pages/Login";
 import Homes from "./pages/Homes";
 import EditPost from "./pages/EditPost";
-import FullPost from './pages/FullPost'
+import FullPost from "./pages/FullPost";
+import Mentors from "./components/mentors/Mentors";
+import Explore from "./components/mentors/Explore";
 function App() {
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
-
-
-
-
-
-
 
   return (
     <div>
       <Router>
         <NavBar />
-       
+
         <Routes>
           <Route path="/" element={<Outlet />}>
             <Route path="/" element={<Home />} />
@@ -56,7 +52,6 @@ function App() {
             <Route path="/business" element={<Business />} />
             <Route path="/dashboard" element={<Dashboard />} />{" "}
             <Route path="/students" element={<Students />} />
-            {/* <Route path="/freelancer-signup" element={<FreelancerSignUp />} /> */}
             <Route path="/workinprogress" element={<WorkInProgress />} />
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/fortalents" element={<ForTalents />} />
@@ -69,10 +64,15 @@ function App() {
             <Route path="/login" element={<Login setIsAuth={setIsAuth} />} />
             <Route path="/edit-post/:postId" element={<EditPost />} />
           </Route>
-           {/* Add a new route for displaying full posts */}
-           <Route path="/full-post/:postId" element={<FullPost isAuth={isAuth}/>} />
+
+          <Route
+            path="/full-post/:postId"
+            element={<FullPost isAuth={isAuth} />}
+          />
 
           <Route path="*" element={<ErrorPage />} />
+          <Route path="mentors" element={<Mentors />} />
+          <Route path="mentors/explore" element={<Explore />} />
         </Routes>
         <Footer />
         <ToastContainer autoClose={2000} />
